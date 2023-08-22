@@ -1,4 +1,4 @@
-package com.astart.app.persistence.entity;
+package com.astart.app.persistence.entity.products;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(
@@ -49,15 +50,13 @@ public class Products {
           name = "um_id",
           nullable = false
   )
-  @ManyToOne()
-  private UnitMeasure unit_measure;
+  private Integer um_id;
 
   @Column(
           name = "group_id",
           nullable = false
   )
-  @ManyToOne
-  private ProductsGroups groups;
+  private Integer group_id;
 
   @Column(
           name = "active",
@@ -90,6 +89,29 @@ public class Products {
           nullable = true
   )
   private Date deleted_at;
+
+  /**
+   * Relations
+   */
+
+  @ManyToOne
+  @JoinColumn(name = "um_id",
+          referencedColumnName = "id",
+          insertable = false,
+          updatable = false
+  )
+  private UnitMeasure unitMeasure;
+
+  @ManyToOne
+  @JoinColumn(name = "group_id",
+          referencedColumnName = "id",
+          insertable = false,
+          updatable = false
+  )
+  private ProductsGroups group;
+
+  @OneToMany(mappedBy = "product")
+  private List<ProductsImages> images;
 
   /**
    * METHODS: Don't using methods, using Lombok

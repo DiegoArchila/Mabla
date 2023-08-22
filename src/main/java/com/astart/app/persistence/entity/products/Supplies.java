@@ -1,4 +1,4 @@
-package com.astart.app.persistence.entity;
+package com.astart.app.persistence.entity.products;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,6 +19,7 @@ public class Supplies {
   /**
    * FIELDS
    */
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -41,8 +42,7 @@ public class Supplies {
           name = "um_id",
           nullable = false
   )
-  @ManyToOne
-  private UnitMeasure unit_measure;
+  private Integer um_id;
 
   @Column(
           name = "created_at",

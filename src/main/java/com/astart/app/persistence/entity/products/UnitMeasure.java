@@ -1,4 +1,4 @@
-package com.astart.app.persistence.entity;
+package com.astart.app.persistence.entity.products;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import java.util.Date;
 
 @Entity
 @Table(
-        name = "products_groups",
+        name = "unit_measure",
         schema = "public")
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductsGroups {
+public class UnitMeasure {
 
   /**
    * FIELDS
@@ -22,22 +22,29 @@ public class ProductsGroups {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  private Integer id;
+  private int id;
 
   @Column(
           name = "name",
           length = 256,
-          unique = true,
-          nullable = false
+          nullable = false,
+          unique = true
   )
   private String name;
 
   @Column(
           name = "description",
-          length = 256,
-          nullable = false
+          nullable = true
   )
   private String description;
+
+  @Column(
+          name = "symbol",
+          length = 10,
+          nullable = false,
+          unique = true
+  )
+  private String symbol;
 
   @Column(
           name = "created_at",
@@ -61,5 +68,4 @@ public class ProductsGroups {
   /**
    * METHODS: Don't using methods, using Lombok
    */
-
 }

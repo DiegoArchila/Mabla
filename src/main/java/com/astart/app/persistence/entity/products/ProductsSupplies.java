@@ -1,4 +1,4 @@
-package com.astart.app.persistence.entity;
+package com.astart.app.persistence.entity.products;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,22 +25,19 @@ public class ProductsSupplies {
           name = "product_id",
           nullable = false
   )
-  @ManyToOne
-  private Products product;
+  private Integer product_id;
 
   @Column(
           name = "supply_id",
           nullable = false
   )
-  @ManyToOne
-  private Supplies supply;
+  private Integer supply_id;
 
   @Column(
           name = "um_id",
           nullable = false
   )
-  @ManyToOne
-  private UnitMeasure unit_measure;
+  private Integer um_id;
 
   @Column(
           name = "amount",
@@ -66,6 +63,35 @@ public class ProductsSupplies {
           nullable = true
   )
   private Date deleted_at;
+
+  /**
+   * Relations
+   */
+
+  @ManyToOne
+  @JoinColumn(name = "product_id",
+          referencedColumnName = "id",
+          insertable = false,
+          updatable = false
+  )
+  private Products product;
+
+
+  @ManyToOne
+  @JoinColumn(name = "supply_id",
+          referencedColumnName = "id",
+          insertable = false,
+          updatable = false
+  )
+  private Supplies supply;
+
+  @ManyToOne
+  @JoinColumn(name = "um_id",
+          referencedColumnName = "id",
+          insertable = false,
+          updatable = false
+  )
+  private UnitMeasure unitMeasure;
 
   /**
    * METHODS: Don't using methods, using Lombok

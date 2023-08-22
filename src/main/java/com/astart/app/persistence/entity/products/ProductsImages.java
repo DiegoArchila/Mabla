@@ -1,4 +1,4 @@
-package com.astart.app.persistence.entity;
+package com.astart.app.persistence.entity.products;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,12 +9,12 @@ import java.util.Date;
 
 @Entity
 @Table(
-        name = "unit_measure",
+        name = "ProductsImages",
         schema = "public")
 @Getter
 @Setter
 @NoArgsConstructor
-public class UnitMeasure {
+public class ProductsImages {
 
   /**
    * FIELDS
@@ -27,24 +27,23 @@ public class UnitMeasure {
   @Column(
           name = "name",
           length = 256,
-          nullable = false,
-          unique = true
+          unique = true,
+          nullable = false
   )
   private String name;
 
   @Column(
-          name = "description",
-          nullable = true
+          name = "path",
+          length = 256,
+          nullable = false
   )
-  private String description;
+  private String path;
 
   @Column(
-          name = "symbol",
-          length = 10,
-          nullable = false,
-          unique = true
+          name = "product_id",
+          nullable = false
   )
-  private String symbol;
+  private Integer product_id;
 
   @Column(
           name = "created_at",
@@ -64,6 +63,18 @@ public class UnitMeasure {
           nullable = true
   )
   private Date deleted_at;
+
+  /**
+   * Relations
+   */
+
+  @ManyToOne
+  @JoinColumn(name = "product_id",
+          referencedColumnName = "id",
+          insertable = false,
+          updatable = false
+  )
+  private Products product;
 
   /**
    * METHODS: Don't using methods, using Lombok

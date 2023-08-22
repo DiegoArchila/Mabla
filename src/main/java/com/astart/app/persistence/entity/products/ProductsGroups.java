@@ -1,4 +1,4 @@
-package com.astart.app.persistence.entity;
+package com.astart.app.persistence.entity.products;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -6,15 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(
-        name = "ProductsImages",
+        name = "products_groups",
         schema = "public")
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductsImages {
+public class ProductsGroups {
 
   /**
    * FIELDS
@@ -22,7 +23,7 @@ public class ProductsImages {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  private int id;
+  private Integer id;
 
   @Column(
           name = "name",
@@ -33,18 +34,11 @@ public class ProductsImages {
   private String name;
 
   @Column(
-          name = "path",
+          name = "description",
           length = 256,
           nullable = false
   )
-  private String path;
-
-  @Column(
-          name = "product_id",
-          nullable = false
-  )
-  @ManyToOne
-  private Products product;
+  private String description;
 
   @Column(
           name = "created_at",
@@ -66,6 +60,16 @@ public class ProductsImages {
   private Date deleted_at;
 
   /**
+   * Relations
+   */
+
+
+  // @OneToMany(mappedBy = "group")
+  // private List<Products> products;
+
+
+  /**
    * METHODS: Don't using methods, using Lombok
    */
+
 }
