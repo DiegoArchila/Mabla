@@ -11,7 +11,7 @@ public class ProductsResponses {
   private String name;
   private String description;
   private String sku;
-  private String group;
+  private String[] groups;
   private String unitMeasure;
   private String notes;
 
