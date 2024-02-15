@@ -10,8 +10,6 @@ import org.hibernate.annotations.*;
 import java.util.Date;
 
 @Entity
-//@SQLDelete(sql = "UPDATE unit_measure SET deleted_at=NOW(), updated_at=NOW() WHERE id=?")
-//@SQLSelect(sql = "SELECT * FROM unit_measure WHERE deleted_at=NULL")
 @Table(
         name = "unit_measure",
         schema = "public")

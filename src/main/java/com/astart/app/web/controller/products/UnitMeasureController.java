@@ -38,11 +38,7 @@ public class UnitMeasureController {
         return ResponseEntity.ok(result);
     }
 
-    /**
-     *
-     * @param q
-     * @return
-     */
+
     @GetMapping("/search")
     public ResponseEntity<List<UnitMeasureEntity>> search(@RequestParam String q){
             Optional<List<UnitMeasureEntity>> result= unitMeasureServices.search(q);
@@ -78,7 +74,8 @@ public class UnitMeasureController {
         if (this.unitMeasureServices.delete((Integer) id)){
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Not deleted, register not found or have error while try deleted it");
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
+                    .body("Not deleted, register not found or have error while try deleted it");
         }
     }
 }
