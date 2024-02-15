@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -48,11 +49,9 @@ public class ProductsController {
 
     }
 
-
-    @PutMapping("/update")
-    public ResponseEntity<ProductsResponses> edit(@RequestBody ProductsEntity product) {
-      this.productsServices.save(product);
-      return ResponseEntity.ok(productsServices.getId(product.getId()));
+    @PostMapping("/update")
+    public ResponseEntity<Optional<ProductsEntity>> edit(@RequestBody ProductsEntity product) {
+      return ResponseEntity.ok(productsServices.save(product));
     }
 
 

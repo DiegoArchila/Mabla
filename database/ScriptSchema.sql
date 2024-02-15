@@ -7,35 +7,20 @@
 
 --DROP ROLE IF EXISTS as_admin;
 
--- CREATE ROLE: as_admin
-CREATE ROLE as_admin WITH
-	SUPERUSER
-	CREATEDB
+	-- CREATE ROLE: as_user
+CREATE ROLE ma_user WITH
 	NOCREATEROLE
-	INHERIT
-	LOGIN
-	CONNECTION LIMIT 1
-	PASSWORD 'Admin.123456';
-
-	-- CREATE ROLE: as_admin
-CREATE ROLE as_user WITH
-	NOCREATEROLE
-	INHERIT
+	NOINHERIT
 	LOGIN
 	CONNECTION LIMIT -1
-	PASSWORD 'test123456';
+	PASSWORD 'Test.123456';
 
 --DROP DATABASE IF EXISTS astart;
 
------ CREATE DATABASE: astart
-CREATE DATABASE astart
-	WITH
-	OWNER = as_admin
-	ENCODING = 'UTF8'
-	LC_COLLATE = 'en_US.UTF-8'
-	LC_CTYPE = 'en_US.UTF-8'
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
+GRANT USAGE ON SCHEMA public TO ma_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO ma_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE ON SEQUENCES TO ma_user;
+
 
 /***********************
 * ENVIRONMENT: PRODUCTS
@@ -112,6 +97,8 @@ CREATE TABLE products_supplies (
 	PRIMARY KEY (id)
 );
 
+--RELATIONS
+
 -- ALTER TABLE: ADD CONSTRAINTS FOREIGN KEYS INTERNAL, VIEW DIAGRAM
 ALTER TABLE products
 	ADD CONSTRAINT fk_um_id
@@ -154,6 +141,58 @@ ALTER TABLE products_supplies
 		FOREIGN KEY(um_id)
 			REFERENCES unit_measure(id);
 
+--CONSTRAINST
+ALTER TABLE products
+	ADD CONSTRAINT product_unique UNIQUE (name, description);
+
+
+--ADD DATA Example
+
+--INSERT PRODUCTS INITALS VALUES FOR Environment DEV
+INSERT INTO products_groups(
+	name,
+	description
+) VALUES (
+	'Muelles',
+	'Este grupo contine esos productos que son de muelles y hojas de soporte'
+), (
+	'Electricos',
+	'Este grupo contine esos productos que son de electricidad'
+);
+
+INSERT INTO unit_measure(
+	name,
+	description,
+	symbol
+) VALUES (
+	'Unidades',
+	'unidad cantidad de a 1',
+	'UND'
+);
+
+INSERT INTO products(
+	name,
+	description,
+	sku,
+	um_id,
+	group_id,
+	notes
+) VALUES (
+	'Hoja USA Inca 2463/1',
+	'Hoja princial muelle inca primera',
+	'',
+	1,
+	1,
+	NULL
+), (
+	'Stop unidad redonda ked',
+	'Referencia 212454',
+	'',
+	1,
+	1,
+	NULL
+);
+
 
 /***********************
 * ENVIRONMENT: PEOPLES 
@@ -177,7 +216,7 @@ CREATE TABLE peoples (
 	dni VARCHAR(128) NOT NULL,
 	phone VARCHAR(32) NOT NULL,
 	email VARCHAR(256) NOT NULL,
-	image_profile VARCHAR(256) NOT NULL,
+	image_profile VARCHAR(256) NOT NULL DEFAULT '/public/img/avatar.jpg',
 	pwd VARCHAR(256) NOT NULL,
 	active boolean NOT NULL DEFAULT true,
 	created_at TIMESTAMP WITH time zone NOT NULL DEFAULT current_timestamp,

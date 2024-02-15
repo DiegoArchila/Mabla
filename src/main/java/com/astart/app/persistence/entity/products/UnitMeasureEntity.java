@@ -1,17 +1,17 @@
 package com.astart.app.persistence.entity.products;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import java.util.Date;
 
 @Entity
-@SQLDelete(sql = "UPDATE unit_measure SET deleted_at=NOW(), updated_at=NOW() WHERE id=?")
+//@SQLDelete(sql = "UPDATE unit_measure SET deleted_at=NOW(), updated_at=NOW() WHERE id=?")
+//@SQLSelect(sql = "SELECT * FROM unit_measure WHERE deleted_at=NULL")
 @Table(
         name = "unit_measure",
         schema = "public")
@@ -52,7 +52,6 @@ public class UnitMeasureEntity {
 
   @Column(
           name = "created_at",
-          columnDefinition = "DEFAULT current_timestamp",
           nullable = false,
           updatable = false
   )

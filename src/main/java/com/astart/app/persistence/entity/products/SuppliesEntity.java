@@ -50,7 +50,6 @@ public class SuppliesEntity {
 
   @Column(
           name = "created_at",
-          columnDefinition = "DEFAULT current_timestamp",
           nullable = false,
           updatable = false
   )

@@ -5,11 +5,13 @@ import com.astart.app.persistence.repository.products.ProductsRepository;
 import com.astart.app.domain.dto.products.ProductsResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ProductsServices {
 
     private final ProductsRepository productsRepository;
@@ -24,12 +26,7 @@ public class ProductsServices {
      * @return List of all Products
      */
     public List<ProductsEntity> getAll(){
-
-        ProductsResponses productsResponses = new ProductsResponses();
-
-
         return this.productsRepository.findAllByActiveTrueOrderByNameAsc();
-
     }
 
     /**

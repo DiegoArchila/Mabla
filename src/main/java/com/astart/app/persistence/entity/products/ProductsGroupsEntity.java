@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
@@ -45,7 +46,6 @@ public class ProductsGroupsEntity {
 
   @Column(
           name = "created_at",
-          columnDefinition = "DEFAULT current_timestamp",
           nullable = false,
           updatable = false
   )

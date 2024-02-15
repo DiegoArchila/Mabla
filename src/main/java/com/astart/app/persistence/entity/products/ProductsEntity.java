@@ -14,7 +14,9 @@ import java.util.List;
 @SQLDelete(sql = "UPDATE products SET deleted_at=NOW(), updated_at=NOW(), active=false WHERE id=?")
 @Table(
         name = "products",
-        schema = "public")
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "description"})},
+        schema = "public"
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -63,7 +65,6 @@ public class ProductsEntity {
 
   @Column(
           name = "active",
-          columnDefinition= "boolean default 'true'",
           nullable = false
   )
   private Boolean active=true;
@@ -76,7 +77,6 @@ public class ProductsEntity {
 
   @Column(
           name = "created_at",
-          columnDefinition = "DEFAULT current_timestamp",
           nullable = false,
           updatable = false
   )
