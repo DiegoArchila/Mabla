@@ -11,9 +11,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
 
 @Entity
-@SQLDelete(sql = "UPDATE supplies SET deleted_at=NOW(), updated_at=NOW() WHERE id=?")
 @Table(
         name = "supplies",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"name","description"})},
         schema = "public")
 @Getter
 @Setter
@@ -72,4 +72,17 @@ public class SuppliesEntity {
   /**
    * METHODS: Don't using methods, using Lombok
    */
+
+  /**
+   * RELATIONS:
+   */
+
+    @ManyToOne
+    @JoinColumn(
+            name = "um_id",
+            referencedColumnName = "id",
+            insertable = false,
+            updatable = false
+    )
+    private UnitMeasureEntity unit_measure;
 }

@@ -34,11 +34,8 @@ public class UnitMeasureServices implements Serializable {
     }
 
     public Boolean Save(UnitMeasureEntity unitMeasureEntity) {
-
-        this.unitMeasureRepository.save(unitMeasureEntity);
-        Optional<UnitMeasureEntity> temp = this.unitMeasureRepository.findById(unitMeasureEntity.getId());
-
-        return temp.isPresent();
+        UnitMeasureEntity temp =this.unitMeasureRepository.save(unitMeasureEntity);
+        return this.unitMeasureRepository.existsById(temp.getId());
     }
 
     public Boolean update(UnitMeasureEntity unitMeasure){

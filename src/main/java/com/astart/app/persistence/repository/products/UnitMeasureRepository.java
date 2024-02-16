@@ -17,7 +17,7 @@ public interface UnitMeasureRepository extends ListCrudRepository<UnitMeasureEnt
     void deleteById(Integer id);
 
     @Query(
-            value = "SELECT * FROM unit_measure WHERE CONCAT(name, ' ', symbol) LIKE %?1%",
+            value = "SELECT * FROM unit_measure WHERE CONCAT(name, ' ', symbol) ILIKE %?1%",
             nativeQuery = true
     )
     Optional<List<UnitMeasureEntity>> search(String q);

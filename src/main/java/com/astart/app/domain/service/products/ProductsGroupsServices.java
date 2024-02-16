@@ -5,11 +5,13 @@ import com.astart.app.persistence.entity.products.UnitMeasureEntity;
 import com.astart.app.persistence.repository.products.ProductsGroupsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ProductsGroupsServices {
 
     private final ProductsGroupsRepository productsGroupsRepository;
@@ -20,9 +22,9 @@ public class ProductsGroupsServices {
     }
 
     public Boolean Save(ProductsGroupsEntity productsGroupsEntity) {
-        this.productsGroupsRepository.save(productsGroupsEntity);
-        Optional<ProductsGroupsEntity> temp = this.productsGroupsRepository.findById(productsGroupsEntity.getId());
-        return temp.isPresent();
+
+        ProductsGroupsEntity temp = this.productsGroupsRepository.save(productsGroupsEntity);
+        return this.productsGroupsRepository.existsById(temp.getId());
     }
 
     public Optional<ProductsGroupsEntity> getById(Integer id){

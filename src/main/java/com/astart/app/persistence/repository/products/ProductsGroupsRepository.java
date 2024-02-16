@@ -17,7 +17,7 @@ public interface ProductsGroupsRepository extends ListCrudRepository<ProductsGro
     void deleteById(Integer id);
 
     @Query(
-            value = "SELECT * FROM products_groups WHERE CONCAT(name, ' ', description) LIKE %?1%",
+            value = "SELECT * FROM products_groups WHERE CONCAT(name, ' ', description) ILIKE %?1%",
             nativeQuery = true
     )
     Optional<List<ProductsGroupsEntity>> search(String q);
