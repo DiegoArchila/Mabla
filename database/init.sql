@@ -1,0 +1,19 @@
+/******************************************
+* SCRIPT CREATION STRUCTURE ON POSTGRESQL *
+* VERSION:0.1
+* AUTOR: Diego Alonso Archila
+* ENVIRONMENT: Production
+*******************************************/
+
+-- CREATE ROLE: as_user
+CREATE ROLE ma_user WITH
+	NOCREATEROLE
+	NOINHERIT
+	LOGIN
+	CONNECTION LIMIT -1
+	PASSWORD 'Test.123456';
+
+
+GRANT USAGE ON SCHEMA public TO ma_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO ma_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE ON SEQUENCES TO ma_user;
