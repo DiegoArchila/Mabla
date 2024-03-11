@@ -11,7 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
 
 @Entity
-@SQLDelete(sql = "UPDATE products_supplies SET deleted_at=NOW(), updated_at=NOW() WHERE id=?")
+//@SQLDelete(sql = "UPDATE products_supplies SET deleted_at=NOW(), updated_at=NOW() WHERE id=?")
 @Table(
         name = "products_supplies",
         schema = "public")
