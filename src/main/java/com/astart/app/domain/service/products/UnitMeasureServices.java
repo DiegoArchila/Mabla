@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UnitMeasureServices implements Serializable {
+public class UnitMeasureServices {
 
     private final UnitMeasureRepository unitMeasureRepository;
 

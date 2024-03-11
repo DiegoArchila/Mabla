@@ -52,24 +52,24 @@ services:
       - ./pgadmin4/servers.json:/pgadmin4/servers.json
 
 # Settings Jenkins
-  jenkins:
-    container_name: jenkins
-    image: jenkins/jenkins:lts-jdk17
-    networks:
-      - net_mabla
-    restart: on-failure
-    privileged: true
-    user: root
-    ports:
-      - ${JENKINS_PORT_EXPOSE_WEB}:${JENKINS_PORT_LISTEN_WEB}
-      - ${JENKINS_PORT_EXPOSE_API}:${JENKINS_PORT_LISTEN_API}
-    volumes:
-      - jenkins-data:/var/jenkins_home
+  # jenkins:
+  #   container_name: jenkins
+  #   image: jenkins/jenkins:lts-jdk17
+  #   networks:
+  #     - net_mabla
+  #   restart: on-failure
+  #   privileged: true
+  #   user: root
+  #   ports:
+  #     - ${JENKINS_PORT_EXPOSE_WEB}:${JENKINS_PORT_LISTEN_WEB}
+  #     - ${JENKINS_PORT_EXPOSE_API}:${JENKINS_PORT_LISTEN_API}
+  #   volumes:
+  #     - jenkins-data:/var/jenkins_home
 
 networks:
   net_mabla:
     driver: bridge
     
 volumes:
-  jenkins-data:
+  # jenkins-data:
   pg-data:
