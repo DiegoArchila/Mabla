@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
 @Entity
-@SQLDelete(sql = "UPDATE products_images SET deleted_at=NOW(), updated_at=NOW() WHERE id=?")
 @Table(
         name = "products_images",
         schema = "public")
@@ -63,12 +61,6 @@ public class ProductsImagesEntity {
   )
   @UpdateTimestamp()
   private Date updated_at;
-
-  @Column(
-          name = "deleted_at",
-          nullable = true
-  )
-  private Date deleted_at;
 
   /**
    * Relations

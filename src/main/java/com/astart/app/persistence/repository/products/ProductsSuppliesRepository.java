@@ -5,4 +5,5 @@ import org.springframework.data.repository.ListCrudRepository;
 
 public interface ProductsSuppliesRepository extends ListCrudRepository<ProductsSuppliesEntity, Integer> {
 
+
 }

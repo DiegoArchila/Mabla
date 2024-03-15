@@ -1,7 +1,6 @@
 package com.astart.app.domain.service.products;
 
 import com.astart.app.persistence.entity.products.ProductsGroupsEntity;
-import com.astart.app.persistence.entity.products.UnitMeasureEntity;
 import com.astart.app.persistence.repository.products.ProductsGroupsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

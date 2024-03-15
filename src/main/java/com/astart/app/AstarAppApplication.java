@@ -11,6 +11,7 @@ public class AstarAppApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(AstarAppApplication.class, args);
+
 	}
 
 }

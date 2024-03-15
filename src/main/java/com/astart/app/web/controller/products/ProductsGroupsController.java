@@ -62,7 +62,7 @@ public class ProductsGroupsController {
       return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
     } else {
       return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
-              .body("Not deleted, register not found or have error while try deleted it");
+              .body("Not deleted, register not found or error found while try deleted it");
     }
   }
 
