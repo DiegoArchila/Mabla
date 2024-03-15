@@ -13,7 +13,7 @@ import java.nio.file.Path;
  *     &emsp; <li>
  *         DIRECTORY-NAME_+PATH+_RESOURCE <br/>
  *         <p>
- *         &emsp; For naming the path the images path, example: <br/>
+ *         &emsp; For naming the path the users path, example: <br/>
  *         <pre>public static final Path IMAGES_PATH_USERS = Paths.get(base +"//images//users");</pre>
  *         </p>
  *     </li>

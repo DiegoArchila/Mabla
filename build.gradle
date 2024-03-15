@@ -25,6 +25,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation "org.springframework.boot:spring-boot-starter-security"
+
+	// https://mvnrepository.com/artifact/com.twelvemonkeys.imageio/imageio-jpeg
+	implementation group: 'com.twelvemonkeys.imageio', name: 'imageio-jpeg', version: '3.10.1'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
