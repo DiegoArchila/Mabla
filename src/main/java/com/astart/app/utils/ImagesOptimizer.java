@@ -1,13 +1,12 @@
 package com.astart.app.utils;
 
-import com.astart.app.paths.PathsProject;
+import com.luciad.imageio.webp.WebPWriteParam;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
-import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,39 +15,38 @@ import java.nio.file.Path;
 
 /**
  * Class for optimize images.
- * The System is settled for the all inputs images accept max size 2MB.
+ * The System is settled for the all inputs images accept max size 5MB.
  * If needs change these value, go to file  application.properties.yml
- * <pre>spring.servlet.multipart.max-file-size=2MB</pre>
+ * <pre>spring.servlet.multipart.max-file-size=5MB</pre>
  */
 public class ImagesOptimizer {
 
     // Constant Class
-    private static final Integer HEIGHT =1080;
-    private static final Integer WIDTH =1080;
+    private static final Integer STANDAR_WIDTH =1080;
     private static final String EXTENSION_IMAGE = "webp";
 
-
-    private static Path imagePath;
-    private static File ImageOptimized;
-
-
     /**
-     * optimize the images
-     * @param image Image in any type image, and the output always be .webp, or change the constant
-     * @param path Path where will the image is saved
+     * Gets the image optimized
+     *
+     * @param image Image in any type image, and the output always be .webp
+     * @param path  Path where will the image is saved
      * @return Path where it is the image created
      */
-    public static Path getOptimized(MultipartFile image, PathsProject path) {
+    public static Path getOptimized(MultipartFile image, Path path) {
 
         //Create the file in filesystem, but without the data.
-        imagePath= Path.of(path.toString() + "/" + System.currentTimeMillis() + "." +EXTENSION_IMAGE);
-        ImageOptimized = new File(imagePath.toAbsolutePath().toString());
+        Path imagePath = Path.of(path.toString() + "/" + System.currentTimeMillis() + "." + EXTENSION_IMAGE);
+        File imageOptimized = new File(imagePath.toAbsolutePath().toString());
 
         //Settings params of compression
-        ImageWriter writerImage = ImageIO.getImageWritersByFormatName(EXTENSION_IMAGE).next();
-        ImageWriteParam paramsWriteImage = new JPEGImageWriteParam(null);
+        ImageWriter writerImage = ImageIO.getImageWritersByMIMEType("image/webp").next();
+        ImageWriteParam paramsWriteImage = new WebPWriteParam(writerImage.getLocale());
         paramsWriteImage.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-        paramsWriteImage.setCompressionQuality(0.8f);
+
+        /* Adjust this parameter if you want change the quality of compression, 1.0 for best quality or 0.0 without quality */
+        paramsWriteImage.setCompressionType(paramsWriteImage.getCompressionTypes()[WebPWriteParam.LOSSY_COMPRESSION]);
+        paramsWriteImage.setCompressionQuality(0.2f);
+
 
         try {
             if (!image.isEmpty()) {
@@ -56,9 +54,37 @@ public class ImagesOptimizer {
                 InputStream inputStreamImageOriginal = image.getInputStream();
                 BufferedImage originalImage = ImageIO.read(inputStreamImageOriginal);
 
-                /* Save data image to File created, after its compressed */
-                writerImage.setOutput(ImageIO.createImageOutputStream(ImageOptimized));
-                writerImage.write(null, new IIOImage(originalImage, null, null), paramsWriteImage);
+                //If the input image is upper to STANDAR_WIDTH, this is resized, else don´t it
+                if (originalImage.getWidth() > STANDAR_WIDTH){
+
+                    //Calculate the aspect for calc the new height
+                    Float aspect = ((float) originalImage.getWidth() / originalImage.getHeight());
+                    Integer newHeight = (int) (STANDAR_WIDTH / aspect);
+
+
+                    //Create the image with new parameters without data
+                    BufferedImage newImage = new BufferedImage(STANDAR_WIDTH, newHeight, BufferedImage.TYPE_INT_RGB);
+
+                    // Create the drawer for the new image
+                    Graphics2D drawNewImage= newImage.createGraphics();
+                    drawNewImage.drawImage(originalImage.getScaledInstance(
+                            STANDAR_WIDTH,
+                            newHeight,
+                            Image.SCALE_SMOOTH
+                    ),0,0,null);
+
+                    /* Save data image to File created, after its compressed */
+                    writerImage.setOutput(ImageIO.createImageOutputStream(imageOptimized));
+                    writerImage.write(null, new IIOImage(newImage, null, null), paramsWriteImage);
+
+                    drawNewImage.dispose();
+                    newImage=null;
+
+                } else {
+                    /* Save data image to File created, after its compressed */
+                    writerImage.setOutput(ImageIO.createImageOutputStream(imageOptimized));
+                    writerImage.write(null, new IIOImage(originalImage, null, null), paramsWriteImage);
+                }
 
                 /* Set Objects to null for garbage collector */
                 inputStreamImageOriginal.close();

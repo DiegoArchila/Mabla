@@ -23,6 +23,6 @@ public class PathsProject {
 
     private static final String base="src//main//resources//static";
 
-    public static final Path IMAGES_PATH_USERS=Paths.get(base +"//images//users").toAbsolutePath();
-    public static final Path IMAGES_PATH_PRODUCTS=Paths.get(base +"//images//products").toAbsolutePath();
+    public static final Path IMAGES_PATH_USERS=Paths.get(base +"//images//users");
+    public static final Path IMAGES_PATH_PRODUCTS=Paths.get(base +"//images//products");
 }
