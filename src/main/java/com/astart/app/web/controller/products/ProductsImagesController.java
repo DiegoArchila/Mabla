@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 @RestController()
 @RequestMapping("/products/images")
 public class ProductsImagesController {
@@ -24,7 +26,7 @@ public class ProductsImagesController {
             @RequestParam String name,
             @RequestParam Integer product_id,
             @RequestParam MultipartFile image
-    ) {
+    ) throws Exception {
 
         ProductsImagesEntity productsImages = new ProductsImagesEntity();
         productsImages.setName(name);
@@ -36,4 +38,18 @@ public class ProductsImagesController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductsImagesEntity> getById(@PathVariable Integer id){
+        Optional<ProductsImagesEntity> result = this.productsImagesServices.getById(id);
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
+
+
 }

@@ -2,7 +2,6 @@ package com.astart.app.web.controller.products;
 
 import com.astart.app.persistence.entity.products.ProductsGroupsEntity;
 import com.astart.app.domain.service.products.ProductsGroupsServices;
-import com.astart.app.persistence.entity.products.UnitMeasureEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
