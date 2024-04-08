@@ -14,4 +14,11 @@ public interface ProductsImagesRepository extends ListCrudRepository<ProductsIma
             nativeQuery = true
     )
     Optional<List<ProductsImagesEntity>> search(String q);
+
+    @Override
+    @Query(value = "DELETE FROM products_images WHERE id=?1", nativeQuery = true)
+    void deleteById(Integer integer);
+
+    @Query("SELECT * FROM products_images WHERE product_id=?1")
+    Optional<List<ProductsImagesEntity>> getImagesByProduct(Integer id);
 }

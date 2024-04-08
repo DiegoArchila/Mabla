@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -64,5 +65,28 @@ public class ProductsImagesServices {
         return this.productsImagesRepository.findById(id);
     }
 
-    public Boolean update()
+    public Boolean update(ProductsImagesEntity productImage){
+        Optional<ProductsImagesEntity> old = this.productsImagesRepository.findById(productImage.getId());
+        return old.equals(this.productsImagesRepository.save(productImage));
+    }
+
+    public Boolean delete(Integer id){
+        if (this.productsImagesRepository.existsById(id)) {
+            this.productsImagesRepository.deleteById(id);
+            if (this.productsImagesRepository.existsById(id)){
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public Optional<List<ProductsImagesEntity>> getImagesByProducts(Integer productId){
+        Optional<List<ProductsImagesEntity>> result = this.productsImagesRepository.getImagesByProduct(productId);
+
+        return result;
+    }
+
 }

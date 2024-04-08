@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController()
@@ -49,7 +50,34 @@ public class ProductsImagesController {
         }
     }
 
+    @PostMapping("/edit")
+    public ResponseEntity update(@RequestBody ProductsImagesEntity productsImages){
+        if (this.productsImagesServices.update(productsImages)) {
+            return ResponseEntity.status(HttpStatus.OK).body("edited successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Not updated it");
+        }
+    }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity delete(Integer id){
+        if (this.productsImagesServices.delete(id)) {
+            return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
+                    .body("Not deleted, register not found or error found while try deleted it");
+        }
+    }
+
+    @PostMapping("")
+    public ResponseEntity getImagesByProduct(Integer productId){
+        Optional<List<ProductsImagesEntity>> result = this.productsImagesServices.getImagesByProducts(productId);
+        if (result.isPresent()){
+            ResponseEntity.ok(result.get());
+        } else {
+            ResponseEntity.notFound();
+        }
+    }
 
 
 }
