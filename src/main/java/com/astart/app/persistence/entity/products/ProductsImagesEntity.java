@@ -27,12 +27,10 @@ public class ProductsImagesEntity {
   private int id;
 
   @Column(
-          name = "name",
-          length = 256,
-          unique = true,
-          nullable = false
+          name="is_main",
+          nullable = true
   )
-  private String name;
+  private Boolean main;
 
   @Column(
           name = "path",

@@ -20,63 +20,80 @@ public class ProductsImagesServices {
 
 
     private final ProductsImagesRepository  productsImagesRepository;
+    private File file;
 
     @Autowired
     public ProductsImagesServices(ProductsImagesRepository productsImagesRepository) {
         this.productsImagesRepository = productsImagesRepository;
     }
 
-    public Boolean Save(ProductsImagesEntity productsImagesEntity, MultipartFile image) throws RuntimeException {
+    public Boolean Save(Integer product_id, MultipartFile[] images) {
 
-        try {
+        ImagesOptimizer imagesOptimizer= new ImagesOptimizer();
+        ProductsImagesEntity[] dataImages = new ProductsImagesEntity[images.length];
 
-            productsImagesEntity.setPath(
-                    String.valueOf(ImagesOptimizer.getOptimized(
-                            image, Path.of(PathsProject.IMAGES_PATH_PRODUCTS.toAbsolutePath().toString())
-                    ))
+        for (int i=0;i<images.length;i++) {
 
-            );
+            dataImages[i] = new ProductsImagesEntity();
 
-            System.out.println("Image created, path:"+ productsImagesEntity.getPath());
+            try {
 
-            if (productsImagesEntity.getPath() != "" || productsImagesEntity.getPath()!=null){
-                ProductsImagesEntity temp = this.productsImagesRepository.save(productsImagesEntity);
-                return this.productsImagesRepository.existsById(temp.getId());
+                dataImages[i].setProduct_id(product_id);
+                dataImages[i].setPath(
+                        String.valueOf(imagesOptimizer.getOptimized(
+                                images[i], Path.of(PathsProject.IMAGES_PATH_PRODUCTS.toAbsolutePath().toString())
+                        ))
+                );
+
+                System.out.println("Image created, path:"+ dataImages[i].getPath());
+
+                this.productsImagesRepository.save(dataImages[i]);
+
+                dataImages[i]=null;
+
+            } catch (RuntimeException e) {
+                this.deleteImage(dataImages[i].getPath());
+                throw new RuntimeException("Error on create the image: " + e.getMessage());
             }
-
-        } catch (Exception e){
-            File file = new File(productsImagesEntity.getPath());
-
-            if (file.exists()) {
-                file.delete();
-                System.out.println("image deleted");
-            }
-
-            file=null;
-
-            throw new RuntimeException("Error on create the image: "+ e.getMessage());
-
         }
 
-        return false;
+        return true;
     }
 
+    /**
+     * Search an image and return the object with the data from image
+     * @param id
+     * @return
+     */
     public Optional<ProductsImagesEntity> getById(Integer id){
         return this.productsImagesRepository.findById(id);
     }
 
+    /**
+     * Update the image
+     * @param productImage
+     * @return
+     */
     public Boolean update(ProductsImagesEntity productImage){
         Optional<ProductsImagesEntity> old = this.productsImagesRepository.findById(productImage.getId());
         return old.equals(this.productsImagesRepository.save(productImage));
     }
 
+    /**
+     * Delete the Image
+     * @param id
+     * @return
+     */
     public Boolean delete(Integer id){
         if (this.productsImagesRepository.existsById(id)) {
+            // Get the image
+            Optional<ProductsImagesEntity> res = this.getById(id);
             this.productsImagesRepository.deleteById(id);
-            if (this.productsImagesRepository.existsById(id)){
-                return false;
-            } else {
+            if ( !this.productsImagesRepository.existsById(id) ) {
+                this.deleteImage(res.get().getPath());
                 return true;
+            } else {
+                return false;
             }
         } else {
             return false;
@@ -87,6 +104,30 @@ public class ProductsImagesServices {
         Optional<List<ProductsImagesEntity>> result = this.productsImagesRepository.getImagesByProduct(productId);
 
         return result;
+    }
+
+    /**
+     * Delete the image from the disk
+     * @param path
+     * @return true if the deleted is successfully
+     */
+    private boolean deleteImage(String path){
+        try{
+            this.file = new File(path);
+
+            if (this.file.exists()) {
+                this.file.delete();
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch(RuntimeException e){
+            throw new RuntimeException("Error on delete the image: "+ e.getMessage());
+        } finally {
+            this.file=null;
+        }
+
     }
 
 }

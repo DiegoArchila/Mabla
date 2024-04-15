@@ -24,16 +24,11 @@ public class ProductsImagesController {
 
     @PostMapping("/save")
     public ResponseEntity save(
-            @RequestParam String name,
             @RequestParam Integer product_id,
-            @RequestParam MultipartFile image
+            @RequestParam MultipartFile[] images
     ) throws Exception {
 
-        ProductsImagesEntity productsImages = new ProductsImagesEntity();
-        productsImages.setName(name);
-        productsImages.setProduct_id(product_id);
-
-        if (this.productsImagesServices.Save(productsImages, image)) {
+        if (this.productsImagesServices.Save(product_id, images)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -73,9 +68,9 @@ public class ProductsImagesController {
     public ResponseEntity getImagesByProduct(Integer productId){
         Optional<List<ProductsImagesEntity>> result = this.productsImagesServices.getImagesByProducts(productId);
         if (result.isPresent()){
-            ResponseEntity.ok(result.get());
+            return ResponseEntity.ok(result.get());
         } else {
-            ResponseEntity.notFound();
+            return ResponseEntity.notFound().build();
         }
     }
 

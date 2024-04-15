@@ -25,6 +25,9 @@ public class ImagesOptimizer {
     private static final Integer STANDAR_WIDTH =1080;
     private static final String EXTENSION_IMAGE = "webp";
 
+    public ImagesOptimizer() {
+    }
+
     /**
      * Gets the image optimized
      *
@@ -32,7 +35,7 @@ public class ImagesOptimizer {
      * @param path  Path where will the image is saved
      * @return Path where it is the image created
      */
-    public static Path getOptimized(MultipartFile image, Path path) {
+    public Path getOptimized(MultipartFile image, Path path) {
 
         //Create the file in filesystem, but without the data.
         Path imagePath = Path.of(path.toString() + "/" + System.currentTimeMillis() + "." + EXTENSION_IMAGE);

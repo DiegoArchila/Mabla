@@ -19,6 +19,6 @@ public interface ProductsImagesRepository extends ListCrudRepository<ProductsIma
     @Query(value = "DELETE FROM products_images WHERE id=?1", nativeQuery = true)
     void deleteById(Integer integer);
 
-    @Query("SELECT * FROM products_images WHERE product_id=?1")
+    @Query(value = "SELECT * FROM products_images WHERE product_id=?1", nativeQuery = true)
     Optional<List<ProductsImagesEntity>> getImagesByProduct(Integer id);
 }
