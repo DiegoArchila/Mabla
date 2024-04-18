@@ -65,7 +65,7 @@ public class ProductsImagesEntity {
    */
 
   @ManyToOne
-  @JoinColumn(name = "product_id",
+  @JoinColumn(name = "product",
           referencedColumnName = "id",
           insertable = false,
           updatable = false

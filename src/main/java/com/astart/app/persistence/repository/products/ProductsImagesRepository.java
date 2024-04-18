@@ -9,15 +9,12 @@ import java.util.Optional;
 
 public interface ProductsImagesRepository extends ListCrudRepository<ProductsImagesEntity, Integer> {
 
-    @Query(
-            value = "SELECT * FROM products_images WHERE CONCAT(name, ' ', description) ILIKE %?1%",
-            nativeQuery = true
-    )
-    Optional<List<ProductsImagesEntity>> search(String q);
-
     @Override
-    @Query(value = "DELETE FROM products_images WHERE id=?1", nativeQuery = true)
+    //@Query(value = "DELETE FROM products_images WHERE id=77", nativeQuery = true)
     void deleteById(Integer integer);
+
+    @Query(value = "SELECT * FROM products_images WHERE id=?1", nativeQuery = true)
+    Optional<ProductsImagesEntity> getById(Integer id);
 
     @Query(value = "SELECT * FROM products_images WHERE product_id=?1", nativeQuery = true)
     Optional<List<ProductsImagesEntity>> getImagesByProduct(Integer id);

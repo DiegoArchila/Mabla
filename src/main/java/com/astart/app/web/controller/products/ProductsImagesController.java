@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController()
-@RequestMapping("/products/images")
+@RequestMapping("/products")
 public class ProductsImagesController {
 
     private final ProductsImagesServices productsImagesServices;
@@ -22,22 +22,22 @@ public class ProductsImagesController {
         this.productsImagesServices = productsImagesServices;
     }
 
-    @PostMapping("/save")
+    @PostMapping("/{id}/images/save")
     public ResponseEntity save(
-            @RequestParam Integer product_id,
+            @PathVariable(name = "id") Integer id,
             @RequestParam MultipartFile[] images
     ) throws Exception {
 
-        if (this.productsImagesServices.Save(product_id, images)) {
+        if (this.productsImagesServices.Save((Integer) id, images)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductsImagesEntity> getById(@PathVariable Integer id){
-        Optional<ProductsImagesEntity> result = this.productsImagesServices.getById(id);
+    @GetMapping("/{id}/images")
+    public ResponseEntity<List<ProductsImagesEntity>> getByProduct(@PathVariable Integer id){
+        Optional<List<ProductsImagesEntity>> result = this.productsImagesServices.getImagesByProduct((Integer) id);
         if (result.isPresent()) {
             return ResponseEntity.ok(result.get());
         } else {
@@ -45,17 +45,8 @@ public class ProductsImagesController {
         }
     }
 
-    @PostMapping("/edit")
-    public ResponseEntity update(@RequestBody ProductsImagesEntity productsImages){
-        if (this.productsImagesServices.update(productsImages)) {
-            return ResponseEntity.status(HttpStatus.OK).body("edited successfully");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Not updated it");
-        }
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseEntity delete(Integer id){
+    @DeleteMapping("/{id}/images/delete")
+    public ResponseEntity delete(@RequestBody Integer[] id){
         if (this.productsImagesServices.delete(id)) {
             return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
         } else {
@@ -63,16 +54,5 @@ public class ProductsImagesController {
                     .body("Not deleted, register not found or error found while try deleted it");
         }
     }
-
-    @PostMapping("")
-    public ResponseEntity getImagesByProduct(Integer productId){
-        Optional<List<ProductsImagesEntity>> result = this.productsImagesServices.getImagesByProducts(productId);
-        if (result.isPresent()){
-            return ResponseEntity.ok(result.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
+    
 }

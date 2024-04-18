@@ -60,48 +60,43 @@ public class ProductsImagesServices {
         return true;
     }
 
-    /**
-     * Search an image and return the object with the data from image
-     * @param id
-     * @return
-     */
-    public Optional<ProductsImagesEntity> getById(Integer id){
-        return this.productsImagesRepository.findById(id);
-    }
-
-    /**
-     * Update the image
-     * @param productImage
-     * @return
-     */
-    public Boolean update(ProductsImagesEntity productImage){
-        Optional<ProductsImagesEntity> old = this.productsImagesRepository.findById(productImage.getId());
-        return old.equals(this.productsImagesRepository.save(productImage));
-    }
 
     /**
      * Delete the Image
      * @param id
      * @return
      */
-    public Boolean delete(Integer id){
-        if (this.productsImagesRepository.existsById(id)) {
-            // Get the image
-            Optional<ProductsImagesEntity> res = this.getById(id);
-            this.productsImagesRepository.deleteById(id);
-            if ( !this.productsImagesRepository.existsById(id) ) {
-                this.deleteImage(res.get().getPath());
-                return true;
-            } else {
-                return false;
+    public Boolean delete(Integer[] list){
+
+//        Integer[] listIds =new Integer[list.length];
+
+        ProductsImagesEntity[] res= new ProductsImagesEntity[list.length];
+
+        for (int i=0; i< list.length; i++){
+            if (this.productsImagesRepository.existsById(list[i])) {
+
+                // Get the image
+                res[i] = new ProductsImagesEntity();
+                res[i] = this.productsImagesRepository.getById(list[i]).get();
+
+                System.out.println("[PREPARED-TO-DELETE]: "+ res[i].getId());
+                System.out.println("List Position, ID:"+list[i]);
+
+                this.productsImagesRepository.deleteById(res[i].getId());
+                if ( !this.productsImagesRepository.existsById(list[i]) ) {
+                    this.deleteImage(res[i].getPath());
+                }
             }
-        } else {
-            return false;
         }
+
+        return true;
+
     }
 
-    public Optional<List<ProductsImagesEntity>> getImagesByProducts(Integer productId){
+
+    public Optional<List<ProductsImagesEntity>> getImagesByProduct(Integer productId){
         Optional<List<ProductsImagesEntity>> result = this.productsImagesRepository.getImagesByProduct(productId);
+        System.out.println("[DEBUG] Resultado Query: "+ result.get());
 
         return result;
     }
