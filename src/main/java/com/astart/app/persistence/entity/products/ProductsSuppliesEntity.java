@@ -63,12 +63,6 @@ public class ProductsSuppliesEntity {
   @UpdateTimestamp()
   private Date updated_at;
 
-  @Column(
-          name = "deleted_at",
-          nullable = true
-  )
-  private Date deleted_at;
-
   /**
    * Relations
    */

@@ -30,7 +30,23 @@ public class ProductsSuppliesController {
     }
 
     @GetMapping("/{id}/supplies")
-    public ResponseEntity<List<ProductsSuppliesEntity>> getSuppliesByProductId(@PathVariable("id") Integer product_id) {
+    public ResponseEntity getSuppliesByProductId(@PathVariable("id") Integer product_id) {
         return ResponseEntity.ok(this.productsSuppliesServices.getSuppliesByProduct(product_id));
+    }
+
+    @DeleteMapping("/supplies/delete")
+    public ResponseEntity delete(@RequestBody Integer productSupply_id){
+        if(this.productsSuppliesServices.delete(productSupply_id)){
+            return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED)
+                    .body("Not deleted, register not found or error found while try deleted it");
+        }
+    }
+
+    @PostMapping("/supplies/update")
+    public ResponseEntity update (@RequestBody ProductsSuppliesEntity productsSupplies){
+        this.productsSuppliesServices.update(productsSupplies);
+        return ResponseEntity.ok().build();
     }
 }

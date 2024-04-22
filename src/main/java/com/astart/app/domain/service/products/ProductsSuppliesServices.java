@@ -31,4 +31,19 @@ public class ProductsSuppliesServices {
         return this.productsSuppliesRepository.getSuppliesByProductId(product_id);
     }
 
+    public Boolean delete(Integer productSupply_id){
+
+        this.productsSuppliesRepository.deleteById(productSupply_id);
+
+        if (!this.productsSuppliesRepository.existsById(productSupply_id)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void update(ProductsSuppliesEntity productsSupplies){
+        this.productsSuppliesRepository.save(productsSupplies);
+    }
+
 }

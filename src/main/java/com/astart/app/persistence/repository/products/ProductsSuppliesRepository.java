@@ -11,4 +11,6 @@ public interface ProductsSuppliesRepository extends ListCrudRepository<ProductsS
 
     @Query(value = "SELECT * FROM products_supplies WHERE product_id=?1", nativeQuery = true)
     List<ProductsSuppliesEntity> getSuppliesByProductId(Integer product_id);
+
+
 }
