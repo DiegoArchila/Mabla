@@ -31,7 +31,7 @@ public class ProductsImagesController {
         if (this.productsImagesServices.Save((Integer) id, images)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }
 

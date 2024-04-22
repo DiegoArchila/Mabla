@@ -68,8 +68,6 @@ public class ProductsImagesServices {
      */
     public Boolean delete(Integer[] list){
 
-//        Integer[] listIds =new Integer[list.length];
-
         ProductsImagesEntity[] res= new ProductsImagesEntity[list.length];
 
         for (int i=0; i< list.length; i++){
@@ -78,9 +76,6 @@ public class ProductsImagesServices {
                 // Get the image
                 res[i] = new ProductsImagesEntity();
                 res[i] = this.productsImagesRepository.getById(list[i]).get();
-
-                System.out.println("[PREPARED-TO-DELETE]: "+ res[i].getId());
-                System.out.println("List Position, ID:"+list[i]);
 
                 this.productsImagesRepository.deleteById(res[i].getId());
                 if ( !this.productsImagesRepository.existsById(list[i]) ) {
@@ -96,7 +91,6 @@ public class ProductsImagesServices {
 
     public Optional<List<ProductsImagesEntity>> getImagesByProduct(Integer productId){
         Optional<List<ProductsImagesEntity>> result = this.productsImagesRepository.getImagesByProduct(productId);
-        System.out.println("[DEBUG] Resultado Query: "+ result.get());
 
         return result;
     }

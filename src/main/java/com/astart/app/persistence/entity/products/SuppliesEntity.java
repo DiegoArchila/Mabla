@@ -13,7 +13,7 @@ import java.util.Date;
 @Entity
 @Table(
         name = "supplies",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"name","description"})},
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"name","description","um_id"})},
         schema = "public")
 @Getter
 @Setter

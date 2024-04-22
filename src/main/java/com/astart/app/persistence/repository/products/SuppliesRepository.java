@@ -16,7 +16,7 @@ public interface SuppliesRepository extends ListCrudRepository<SuppliesEntity, I
     void deleteById(Integer id);
 
     @Query(
-            value = "SELECT * FROM supplies WHERE CONCAT(name, ' ', description) ILIKE %?1%",
+            value = "SELECT * FROM supplies WHERE deleted_at IS NULL AND CONCAT(name, ' ', description) ILIKE %?1%",
             nativeQuery = true
     )
     Optional<List<SuppliesEntity>> search(String q);

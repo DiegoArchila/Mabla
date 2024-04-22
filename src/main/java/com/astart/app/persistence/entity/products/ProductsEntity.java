@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@SQLDelete(sql = "UPDATE products SET deleted_at=NOW(), updated_at=NOW(), active=false WHERE id=?")
 @Table(
         name = "products",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "description"})},
