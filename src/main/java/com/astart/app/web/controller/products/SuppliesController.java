@@ -43,8 +43,8 @@ public class SuppliesController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<SuppliesEntity>> getAll(){
-        return ResponseEntity.ok().body(this.suppliesServices.getAll());
+    public ResponseEntity getAllNotDeleted(){
+        return ResponseEntity.ok().body(this.suppliesServices.getAllNotDeleted());
     }
 
     @PutMapping("/edit")
@@ -67,12 +67,12 @@ public class SuppliesController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<SuppliesEntity>> search(@RequestParam String q){
+    public ResponseEntity search(@RequestParam String q){
         Optional<List<SuppliesEntity>> result= suppliesServices.search(q);
         if (result.isPresent()){
             return ResponseEntity.ok(result.get());
         } else {
-            return (ResponseEntity<List<SuppliesEntity>>) ResponseEntity.status(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 

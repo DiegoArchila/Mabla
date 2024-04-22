@@ -20,4 +20,7 @@ public interface SuppliesRepository extends ListCrudRepository<SuppliesEntity, I
             nativeQuery = true
     )
     Optional<List<SuppliesEntity>> search(String q);
+
+    @Query(value = "SELECT * FROM supplies WHERE deleted_at IS NULL", nativeQuery = true)
+    List<SuppliesEntity> findAllNotDeleted();
 }

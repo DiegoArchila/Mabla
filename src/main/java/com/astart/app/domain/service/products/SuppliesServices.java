@@ -34,8 +34,8 @@ public class SuppliesServices {
         return this.suppliesRepository.findById(id);
     }
 
-    public List<SuppliesEntity> getAll(){
-        return this.suppliesRepository.findAll();
+    public List<SuppliesEntity> getAllNotDeleted(){
+        return this.suppliesRepository.findAllNotDeleted();
     }
 
     public Boolean update(SuppliesEntity supplies){
