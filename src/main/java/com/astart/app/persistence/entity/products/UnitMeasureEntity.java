@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -16,7 +17,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UnitMeasureEntity {
+public class UnitMeasureEntity implements Serializable {
 
   /**
    * FIELDS
@@ -36,7 +37,8 @@ public class UnitMeasureEntity {
 
   @Column(
           name = "description",
-          nullable = true
+          nullable = true,
+          length = 256
   )
   private String description;
 

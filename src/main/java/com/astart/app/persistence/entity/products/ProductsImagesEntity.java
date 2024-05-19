@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -16,7 +17,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductsImagesEntity {
+public class ProductsImagesEntity implements Serializable {
 
   /**
    * FIELDS
@@ -40,7 +41,6 @@ public class ProductsImagesEntity {
   private String path;
 
   @Column(
-          name = "product_id",
           nullable = false
   )
   private Integer product_id;
@@ -63,9 +63,9 @@ public class ProductsImagesEntity {
   /**
    * Relations
    */
-
   @ManyToOne
-  @JoinColumn(name = "product",
+  @JoinColumn(
+          name = "product_id",
           referencedColumnName = "id",
           insertable = false,
           updatable = false

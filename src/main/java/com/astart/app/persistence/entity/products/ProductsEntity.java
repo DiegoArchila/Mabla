@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.*;
-
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductsEntity {
+public class ProductsEntity implements Serializable {
 
   /**
    * FIELDS
@@ -115,9 +115,6 @@ public class ProductsEntity {
           updatable = false
   )
   private ProductsGroupsEntity group;
-
-  @OneToMany(mappedBy = "product")
-  private List<ProductsImagesEntity> images;
 
   /**
    * METHODS: Don't using methods, using Lombok
