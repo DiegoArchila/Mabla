@@ -1,5 +1,7 @@
 package com.astart.app.paths;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 
@@ -23,6 +25,34 @@ public class PathsProject {
 
     private static final String base="src/main/resources/static/";
 
-    public static final Path IMAGES_PATH_USERS=Paths.get(base +"/static/images/users");
-    public static final Path IMAGES_PATH_PRODUCTS=Paths.get(base +"/static/images/products");
+    private static final String IMAGES_BASE_PATH = "/static/images/";
+
+    public static final Path IMAGES_PATH_USERS;
+
+    static {
+        try {
+            IMAGES_PATH_USERS = createDirectory(base + IMAGES_BASE_PATH + "users");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final Path IMAGES_PATH_PRODUCTS;
+
+    static {
+        try {
+            IMAGES_PATH_PRODUCTS = createDirectory(base + IMAGES_BASE_PATH + "products");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static Path createDirectory(String directoryPath) throws IOException {
+        Path path = Paths.get(directoryPath);
+        if (!Files.exists(path)) {
+            Files.createDirectories(path);
+            System.out.println("Directory created: " + path);
+        }
+        return path;
+    }
 }
