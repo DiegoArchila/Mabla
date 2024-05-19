@@ -39,3 +39,6 @@ out/
 ### PgAdmin4 ###
 pgadmin4/
 pgadmin_data/
+
+### Images ###
+*.webp
