@@ -21,8 +21,8 @@ import java.nio.file.Path;
  */
 public class PathsProject {
 
-    private static final String base="src//main//resources//static//";
+    private static final String base="src/main/resources/static/";
 
-    public static final Path IMAGES_PATH_USERS=Paths.get(base +"//static//images//users");
-    public static final Path IMAGES_PATH_PRODUCTS=Paths.get(base +"//static//images//products");
+    public static final Path IMAGES_PATH_USERS=Paths.get(base +"/static/images/users");
+    public static final Path IMAGES_PATH_PRODUCTS=Paths.get(base +"/static/images/products");
 }
