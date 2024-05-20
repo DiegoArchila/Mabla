@@ -23,12 +23,15 @@ import java.nio.file.Path;
  */
 public class PathsProject {
 
-    private static final String base="src/main/resources/static/";
+    private static final String base="src//main//resources//static//";
 
-    private static final String IMAGES_BASE_PATH = "/static/images/";
+    private static final String IMAGES_BASE_PATH = "//images//";
 
     public static final Path IMAGES_PATH_USERS;
 
+    /**
+     * Validate if the path exists, else it's created
+     */
     static {
         try {
             IMAGES_PATH_USERS = createDirectory(base + IMAGES_BASE_PATH + "users");
